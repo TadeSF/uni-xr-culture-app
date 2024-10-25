@@ -1,0 +1,19 @@
+# ninja log v5
+1	1181	1729849172866976701	GameActivity/CMakeFiles/game.dir/UGAApplication.cpp.o	1ccad602af796f90
+1	1011	1729849172698338165	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	7c82eab56dbce41b
+3	1104	1729849172791453230	GameActivity/CMakeFiles/game.dir/UGAInput.cpp.o	4994a9b5f5890428
+7	988	1729849172675556895	GameActivity/CMakeFiles/game.dir/UGASoftKeyboard.cpp.o	2872bb4e31ee7c15
+1181	2016	1729849173695986267	/Users/tadestrehk/Developer/UNIVERSITY/uni-xr-culture-app/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/qo264044/obj/arm64-v8a/libgame.so	ee4b7f4c9547f5db
+6	956	1729849172641850113	GameActivity/CMakeFiles/game.dir/UGAInputMotionEvent.cpp.o	a7eb3dbfdc863cce
+4	948	1729849172626382379	GameActivity/CMakeFiles/game.dir/UGAInputKeyEvent.cpp.o	498e7bd36ff45ff5
+1	953	1729849172640202623	GameActivity/CMakeFiles/game.dir/UGAConfiguration.cpp.o	bc2382a0b97b7c02
+2	947	1729849172627844495	GameActivity/CMakeFiles/game.dir/UGAEntry.cpp.o	80eacb8552b42e35
+40	1373	1729850569556120106	GameActivity/CMakeFiles/game.dir/UGAEntry.cpp.o	80eacb8552b42e35
+40	1374	1729850569554077175	GameActivity/CMakeFiles/game.dir/UGAInputKeyEvent.cpp.o	498e7bd36ff45ff5
+39	1378	1729850569563811411	GameActivity/CMakeFiles/game.dir/UGAConfiguration.cpp.o	bc2382a0b97b7c02
+41	1379	1729850569566931517	GameActivity/CMakeFiles/game.dir/UGAInputMotionEvent.cpp.o	a7eb3dbfdc863cce
+41	1408	1729850569594219712	GameActivity/CMakeFiles/game.dir/UGASoftKeyboard.cpp.o	2872bb4e31ee7c15
+39	1426	1729850569612154923	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	7c82eab56dbce41b
+40	1520	1729850569705804967	GameActivity/CMakeFiles/game.dir/UGAInput.cpp.o	4994a9b5f5890428
+38	1597	1729850569782394513	GameActivity/CMakeFiles/game.dir/UGAApplication.cpp.o	1ccad602af796f90
+1597	1787	1729850569969056054	/Users/tadestrehk/Developer/UNIVERSITY/uni-xr-culture-app/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/qo264044/obj/arm64-v8a/libgame.so	ee4b7f4c9547f5db
