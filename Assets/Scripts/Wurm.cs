@@ -41,12 +41,12 @@ public class Wurm : MonoBehaviour
     private void SetSplineNodes()
     {
         for (int i = 0; i < Random.Range(3, 10); i++)
-            spline.Add(new Vector3(Random.Range(-5, 5), Random.Range(0, 5), Random.Range(-5, 5)));
+            spline.Add(new Vector3(Random.Range(-1f, 1f), Random.Range(0f, 2f), Random.Range(-1f, 1f)));
     }
 
     private void SetRadius()
     {
-        splineExtrude.Radius = Random.Range(0.1f, 1.0f);
+        splineExtrude.Radius = Random.Range(0.01f, 0.1f);
         splineExtrude.Rebuild();
     }
 
