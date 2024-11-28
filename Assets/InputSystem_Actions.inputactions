@@ -11,7 +11,7 @@
                     "id": "351f2ccd-1f9f-44bf-9bec-d62ac5c5f408",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Hold",
                     "initialStateCheck": true
                 },
                 {
@@ -81,6 +81,15 @@
                     "name": "Sprint",
                     "type": "Button",
                     "id": "641cd816-40e6-41b4-8c3d-04687c349290",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "MoveObject",
+                    "type": "Button",
+                    "id": "e09a1c6a-8c3e-4108-8276-c0e7d1accf9e",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -470,6 +479,28 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "Crouch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a3124a08-c336-4bd1-8118-dd3cb2390501",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "Hold",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "MoveObject",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "191710ac-07a9-4da7-80d5-8b74ae9028ec",
+                    "path": "<XRController>{RightHand}/triggerPressed",
+                    "interactions": "Hold",
+                    "processors": "",
+                    "groups": ";XR",
+                    "action": "MoveObject",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
