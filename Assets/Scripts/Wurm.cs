@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Splines;
 using UnityEngine.InputSystem;
@@ -5,15 +6,30 @@ using UnityEngine.InputSystem;
 public class Wurm : MonoBehaviour
 {
     //[SerializeField] private Transform wurmTransform;
-    [SerializeField] private InputActionAsset controls;
-    [SerializeField] private Spline spline;
-    [SerializeField] private SplineExtrude splineExtrude;
+    [HideInInspector] [SerializeField] private InputActionAsset controls;
+    [HideInInspector] [SerializeField] private Spline spline;
+    [HideInInspector] [SerializeField] private SplineContainer splineContainer;
+    [HideInInspector] [SerializeField] private SplineExtrude splineExtrude;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        splineExtrude.RebuildOnSplineChange = true;
-        
+        spline ??= new Spline();
+        if (splineContainer == null)
+            splineContainer = gameObject.AddComponent<SplineContainer>();
+        if (splineExtrude == null)
+        {
+            splineExtrude = gameObject.AddComponent<SplineExtrude>();
+            splineExtrude.Container = splineContainer;
+            splineExtrude.RebuildOnSplineChange = true;
+            gameObject.GetComponent<MeshFilter>().mesh = new Mesh();
+            gameObject.GetComponent<MeshRenderer>().SetMaterials(new List<Material>
+            {
+                new (Shader.Find("Universal Render Pipeline/Lit"))
+            });
+        }
+
         spline = GetComponent<SplineContainer>().Spline;
+        splineExtrude.RebuildOnSplineChange = true;
         
         Generate(default);
         var debugActionMap = controls.FindActionMap("Debug");

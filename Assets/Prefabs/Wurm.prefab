@@ -146,9 +146,9 @@ MonoBehaviour:
   m_RebuildFrequency: 30
   m_UpdateColliders: 1
   m_Sides: 9
-  m_SegmentsPerUnit: 2.03
+  m_SegmentsPerUnit: 2
   m_Capped: 1
-  m_Radius: 0.41
+  m_Radius: 1
   m_Range: {x: 0, y: 1}
 --- !u!114 &6160521081018830803
 MonoBehaviour:
@@ -176,4 +176,5 @@ MonoBehaviour:
       m_Data: []
     m_ObjectData:
       m_Data: []
+  splineContainer: {fileID: 0}
   splineExtrude: {fileID: 7675596016175648491}
