@@ -1,15 +1,20 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Splines;
 using UnityEngine.InputSystem;
+using Random = UnityEngine.Random;
+using Vector2 = UnityEngine.Vector2;
+using Vector3 = UnityEngine.Vector3;
 
 public class Wurm : MonoBehaviour
 {
-    //[SerializeField] private Transform wurmTransform;
     [HideInInspector] [SerializeField] private InputActionAsset controls;
     [HideInInspector] [SerializeField] private Spline spline;
     [HideInInspector] [SerializeField] private SplineContainer splineContainer;
     [HideInInspector] [SerializeField] private SplineExtrude splineExtrude;
+
+    [HideInInspector] [SerializeField] private MeshRenderer meshRenderer;
+    [HideInInspector] [SerializeField] private bool selected;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -22,61 +27,80 @@ public class Wurm : MonoBehaviour
             splineExtrude.Container = splineContainer;
             splineExtrude.RebuildOnSplineChange = true;
             gameObject.GetComponent<MeshFilter>().mesh = new Mesh();
-            gameObject.GetComponent<MeshRenderer>().SetMaterials(new List<Material>
-            {
-                new (Shader.Find("Universal Render Pipeline/Lit"))
-            });
+            meshRenderer = gameObject.GetComponent<MeshRenderer>();
         }
 
         spline = GetComponent<SplineContainer>().Spline;
         splineExtrude.RebuildOnSplineChange = true;
-        
         Generate(default);
         var debugActionMap = controls.FindActionMap("Debug");
         var generateInputAction = debugActionMap.FindAction("Generate");
         generateInputAction.performed += Generate;
-        
-        /*var playerActionMap = controls.FindActionMap("Player");
-        var playerInputAction = playerActionMap.FindAction("MoveObject");
-        playerInputAction.performed += MoveObject;*/
+
+        var playerActionMap = controls.FindActionMap("Player");
+        var moveObjectInputAction = playerActionMap.FindAction("MoveObject");
+        moveObjectInputAction.performed += MoveObject;
+
+        var selectObjectInputAction = playerActionMap.FindAction("SelectObject");
+        selectObjectInputAction.performed += SelectObject;
     }
 
-    public void Generate(InputAction.CallbackContext context)
+    private void Generate(InputAction.CallbackContext context)
     {
         spline.Clear();
-        SetSplineNodes();
-        SetRadius();
-        //SetPosition();
+        SetRandomSplineNodes();
+        SetRandomRadius();
+        //SetRandomPosition();
+        SetRandomColor();
     }
-
-    private void SetPosition()
+    
+    private void MoveObject(InputAction.CallbackContext context)
     {
-        //wurmTransform = transform.position(Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f));
+        if (selected)
+        {
+            var moveObjectInput = new Vector3(context.ReadValue<Vector2>().x, 0, context.ReadValue<Vector2>().y);
+            transform.position += moveObjectInput * 0.01f;
+        }
     }
 
-    private void SetSplineNodes()
+    private void SelectObject(InputAction.CallbackContext context)
+    {
+        selected = !selected;
+    }
+
+    private void SetMaterial(Material newMaterial)
+    {
+        meshRenderer.material = newMaterial;
+    }
+
+    private void SetRandomColor()
+    {
+        SetMaterial(new Material(Shader.Find("Universal Render Pipeline/Lit"))
+        {
+            color = Random.ColorHSV()
+        });
+    }
+
+    private void SetRandomPosition()
+    {
+        transform.position = new Vector3(Random.Range(-1f, 1f), Random.Range(0.5f, 1f), Random.Range(-1f, 1f));
+    }
+
+    private void SetRandomSplineNodes()
     {
         for (int i = 0; i < Random.Range(3, 10); i++)
             spline.Add(new Vector3(Random.Range(-1f, 1f), Random.Range(0f, 2f), Random.Range(-1f, 1f)));
     }
 
-    private void SetRadius()
+    private void SetRandomRadius()
     {
         splineExtrude.Radius = Random.Range(0.01f, 0.1f);
         splineExtrude.Rebuild();
     }
 
-    private void MoveObject(InputAction.CallbackContext context)
-    {
-        transform.position = context.ReadValue<Vector3>();
-    }
 
     // Update is called once per frame
     void Update()
-    {
-    }
-
-    void OnInteract()
     {
     }
 }
