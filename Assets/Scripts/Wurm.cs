@@ -18,20 +18,7 @@ public class Wurm : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        spline ??= new Spline();
-        if (splineContainer == null)
-            splineContainer = gameObject.AddComponent<SplineContainer>();
-        if (splineExtrude == null)
-        {
-            splineExtrude = gameObject.AddComponent<SplineExtrude>();
-            splineExtrude.Container = splineContainer;
-            splineExtrude.RebuildOnSplineChange = true;
-            gameObject.GetComponent<MeshFilter>().mesh = new Mesh();
-            meshRenderer = gameObject.GetComponent<MeshRenderer>();
-        }
-
-        spline = GetComponent<SplineContainer>().Spline;
-        splineExtrude.RebuildOnSplineChange = true;
+        Setup();
         Generate(default);
         var debugActionMap = controls.FindActionMap("Debug");
         var generateInputAction = debugActionMap.FindAction("Generate");
@@ -43,6 +30,19 @@ public class Wurm : MonoBehaviour
 
         var selectObjectInputAction = playerActionMap.FindAction("SelectObject");
         selectObjectInputAction.performed += SelectObject;
+    }
+
+    private void Setup()
+    {
+        splineContainer = gameObject.AddComponent<SplineContainer>();
+        spline = GetComponent<SplineContainer>().Spline;
+
+        splineExtrude = gameObject.AddComponent<SplineExtrude>();
+        splineExtrude.Container = splineContainer;
+        splineExtrude.RebuildOnSplineChange = true;
+        splineExtrude.SegmentsPerUnit = 20;
+        gameObject.GetComponent<MeshFilter>().mesh = new Mesh();
+        meshRenderer = gameObject.GetComponent<MeshRenderer>();
     }
 
     private void Generate(InputAction.CallbackContext context)
@@ -88,7 +88,7 @@ public class Wurm : MonoBehaviour
 
     private void SetRandomSplineNodes()
     {
-        for (int i = 0; i < Random.Range(3, 10); i++)
+        for (int i = 0; i < Random.Range(3, 15); i++)
             spline.Add(new Vector3(Random.Range(-1f, 1f), Random.Range(0f, 2f), Random.Range(-1f, 1f)));
     }
 
