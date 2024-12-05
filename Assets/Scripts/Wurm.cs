@@ -7,7 +7,7 @@ using Vector3 = UnityEngine.Vector3;
 
 public class Wurm : MonoBehaviour
 {
-    [HideInInspector] [SerializeField] private InputActionAsset controls;
+    [HideInInspector] [SerializeField] public InputActionAsset controls;
     [HideInInspector] [SerializeField] private Spline spline;
     [HideInInspector] [SerializeField] private SplineContainer splineContainer;
     [HideInInspector] [SerializeField] private SplineExtrude splineExtrude;
