@@ -1054,6 +1054,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "SplineCreation",
+                    "type": "Button",
+                    "id": "c4a343be-cf3b-458a-8c5b-dd43f467c3d5",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -1065,6 +1074,17 @@
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
                     "action": "Generate",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "17966fa3-462a-467d-a997-462a64d1413a",
+                    "path": "<Keyboard>/c",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "SplineCreation",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

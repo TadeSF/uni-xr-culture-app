@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 
 public class SkriptExecutor : MonoBehaviour
 {
+    [SerializeField] private bool splinecreated;
     [SerializeField] private InputActionAsset controls;
     [HideInInspector] [SerializeField] private GameObject newWurmObject;
     [HideInInspector] [SerializeField] private Wurm wurm;
@@ -11,7 +12,7 @@ public class SkriptExecutor : MonoBehaviour
     void Start()
     {
         var debugActionMap = controls.FindActionMap("Debug");
-        var generateInputAction = debugActionMap.FindAction("Generate");
+        var generateInputAction = debugActionMap.FindAction("SplineCreation");
         generateInputAction.performed += GenerateSpline;
     }
 
@@ -23,8 +24,10 @@ public class SkriptExecutor : MonoBehaviour
 
     public void GenerateSpline(InputAction.CallbackContext context)
     {
+        if (splinecreated) return;
         newWurmObject = new GameObject();
         wurm = newWurmObject.AddComponent<Wurm>();
         wurm.controls = controls;
+        splinecreated = true;
     }
 }
