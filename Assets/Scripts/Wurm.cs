@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Splines;
 using UnityEngine.InputSystem;
@@ -14,6 +15,8 @@ public class Wurm : MonoBehaviour
 
     [HideInInspector] [SerializeField] private MeshRenderer meshRenderer;
     [HideInInspector] [SerializeField] private bool selected;
+    
+    [HideInInspector] [SerializeField] private bool enableNodePlacement;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -30,6 +33,13 @@ public class Wurm : MonoBehaviour
 
         var selectObjectInputAction = playerActionMap.FindAction("SelectObject");
         selectObjectInputAction.performed += SelectObject;
+        
+        var nodeCreationAction = debugActionMap.FindAction("EnableNodeCreation");
+        nodeCreationAction.performed += NodePlacementMode;
+        
+        
+        var nodePlacement = debugActionMap.FindAction("NodePlacement");
+        nodePlacement.performed += PlaceNode;
     }
 
     private void Setup()
@@ -75,15 +85,25 @@ public class Wurm : MonoBehaviour
 
     private void SetRandomColor()
     {
-        SetMaterial(new Material(Shader.Find("Universal Render Pipeline/Lit"))
+        SetMaterial(new Material(Shader.Find(new String("Universal Render Pipeline/Lit")))
         {
             color = Random.ColorHSV()
         });
     }
 
-    private void SetRandomPosition()
+    private void NodePlacementMode(InputAction.CallbackContext context)
     {
-        transform.position = new Vector3(Random.Range(-1f, 1f), Random.Range(0.5f, 1f), Random.Range(-1f, 1f));
+        spline.Clear();
+        enableNodePlacement = true;
+    }
+
+    private void PlaceNode(InputAction.CallbackContext context)
+    {
+        if (enableNodePlacement)
+            spline.Add(new Vector3(Random.Range(-1f, 1f), Random.Range(0f,1f), Random.Range(-1f, 1f))); // Placeholder
+                                                                                                        // hier soll die
+                                                                                                        // Controller Location
+                                                                                                        // benutzt werden
     }
 
     private void SetRandomSplineNodes()

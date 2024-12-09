@@ -1063,6 +1063,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "EnableNodeCreation",
+                    "type": "Button",
+                    "id": "5ac845ae-a9d0-42e8-956c-e6848114bc47",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "NodePlacement",
+                    "type": "Button",
+                    "id": "d1db3627-b03c-480e-a3fb-4cc8b0482139",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -1085,6 +1103,39 @@
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
                     "action": "SplineCreation",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e8f9bc61-a730-4970-b9c4-f9223029e760",
+                    "path": "<Keyboard>/n",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "EnableNodeCreation",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ae443d84-3615-43c6-a908-a32ec7ec0c71",
+                    "path": "<Keyboard>/p",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "NodePlacement",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "885ff9b4-eb90-41a5-ab14-0d37e482eab7",
+                    "path": "<XRController>{RightHand}/isTracked",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";XR",
+                    "action": "NodePlacement",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
