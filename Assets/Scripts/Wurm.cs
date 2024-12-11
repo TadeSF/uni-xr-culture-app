@@ -63,4 +63,8 @@ public class Wurm : MonoBehaviour
     void OnInteract()
     {
     }
+    public void OnButtonClick()
+    {
+    Generate(default);
+    }
 }
