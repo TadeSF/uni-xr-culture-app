@@ -22,7 +22,6 @@ public class Wurm : MonoBehaviour
     void Start()
     {
         Setup();
-        Generate(default);
         var debugActionMap = controls.FindActionMap("Debug");
         var generateInputAction = debugActionMap.FindAction("Generate");
         generateInputAction.performed += Generate;
@@ -36,7 +35,6 @@ public class Wurm : MonoBehaviour
         
         var nodeCreationAction = debugActionMap.FindAction("EnableNodeCreation");
         nodeCreationAction.performed += NodePlacementMode;
-        
         
         var nodePlacement = debugActionMap.FindAction("NodePlacement");
         nodePlacement.performed += PlaceNode;
