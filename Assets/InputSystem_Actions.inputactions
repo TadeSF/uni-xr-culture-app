@@ -88,9 +88,9 @@
                 },
                 {
                     "name": "MoveObject",
-                    "type": "Value",
+                    "type": "PassThrough",
                     "id": "e09a1c6a-8c3e-4108-8276-c0e7d1accf9e",
-                    "expectedControlType": "Delta",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
