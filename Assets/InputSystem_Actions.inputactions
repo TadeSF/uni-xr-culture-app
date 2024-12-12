@@ -27,7 +27,7 @@
                     "name": "Attack",
                     "type": "Button",
                     "id": "6c2ab1b8-8984-453a-af3d-a3c78ae1679a",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -36,7 +36,7 @@
                     "name": "Interact",
                     "type": "Button",
                     "id": "852140f2-7766-474d-8707-702459ba45f3",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "Hold",
                     "initialStateCheck": false
@@ -45,7 +45,7 @@
                     "name": "Crouch",
                     "type": "Button",
                     "id": "27c5f898-bc57-4ee1-8800-db469aca5fe3",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -54,7 +54,7 @@
                     "name": "Jump",
                     "type": "Button",
                     "id": "f1ba0d36-48eb-4cd5-b651-1c94a6531f70",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -88,8 +88,17 @@
                 },
                 {
                     "name": "MoveObject",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "e09a1c6a-8c3e-4108-8276-c0e7d1accf9e",
+                    "expectedControlType": "Delta",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "SelectObject",
+                    "type": "Button",
+                    "id": "3a7d9805-15a5-419e-84de-ef1260b7f0c9",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -485,8 +494,8 @@
                 {
                     "name": "",
                     "id": "a3124a08-c336-4bd1-8118-dd3cb2390501",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "Hold",
+                    "path": "<Mouse>/delta",
+                    "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
                     "action": "MoveObject",
@@ -495,12 +504,12 @@
                 },
                 {
                     "name": "",
-                    "id": "191710ac-07a9-4da7-80d5-8b74ae9028ec",
-                    "path": "<XRController>{RightHand}/triggerPressed",
-                    "interactions": "Hold",
+                    "id": "64155c50-3fea-493d-b8b6-72d45f443e68",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
                     "processors": "",
-                    "groups": ";XR",
-                    "action": "MoveObject",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "SelectObject",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -1034,6 +1043,33 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "SplineCreation",
+                    "type": "Button",
+                    "id": "c4a343be-cf3b-458a-8c5b-dd43f467c3d5",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "EnableNodeCreation",
+                    "type": "Button",
+                    "id": "5ac845ae-a9d0-42e8-956c-e6848114bc47",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "NodePlacement",
+                    "type": "Button",
+                    "id": "d1db3627-b03c-480e-a3fb-4cc8b0482139",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -1045,6 +1081,61 @@
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
                     "action": "Generate",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "17966fa3-462a-467d-a997-462a64d1413a",
+                    "path": "<Keyboard>/c",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "SplineCreation",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c5bad082-90f1-4865-83b0-5debf8d9c00d",
+                    "path": "<QuestProTouchController>{RightHand}/primaryButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "EnableNodeCreation",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e8f9bc61-a730-4970-b9c4-f9223029e760",
+                    "path": "<Keyboard>/n",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "EnableNodeCreation",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "885ff9b4-eb90-41a5-ab14-0d37e482eab7",
+                    "path": "<QuestProTouchController>/triggerPressed",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";XR",
+                    "action": "NodePlacement",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a392123c-9192-4b47-9445-e846bf763adf",
+                    "path": "<Keyboard>/#(P)",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "NodePlacement",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

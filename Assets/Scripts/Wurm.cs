@@ -1,70 +1,130 @@
+using System;
 using UnityEngine;
 using UnityEngine.Splines;
 using UnityEngine.InputSystem;
+using Random = UnityEngine.Random;
+using Vector2 = UnityEngine.Vector2;
+using Vector3 = UnityEngine.Vector3;
 
 public class Wurm : MonoBehaviour
 {
-    //[SerializeField] private Transform wurmTransform;
-    [SerializeField] private InputActionAsset controls;
-    [SerializeField] private Spline spline;
-    [SerializeField] private SplineExtrude splineExtrude;
+    [SerializeField] public InputActionAsset controls;
+    [HideInInspector] [SerializeField] private Spline spline;
+    [HideInInspector] [SerializeField] private SplineContainer splineContainer;
+    [HideInInspector] [SerializeField] private SplineExtrude splineExtrude;
+
+    [HideInInspector] [SerializeField] private MeshRenderer meshRenderer;
+    [HideInInspector] [SerializeField] private bool selected;
+    
+    [HideInInspector] [SerializeField] private bool enableNodePlacement;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        splineExtrude.RebuildOnSplineChange = true;
-        
-        spline = GetComponent<SplineContainer>().Spline;
-        
+        Setup();
         Generate(default);
         var debugActionMap = controls.FindActionMap("Debug");
         var generateInputAction = debugActionMap.FindAction("Generate");
         generateInputAction.performed += Generate;
+
+        var playerActionMap = controls.FindActionMap("Player");
+        var moveObjectInputAction = playerActionMap.FindAction("MoveObject");
+        moveObjectInputAction.performed += MoveObject;
+
+        var selectObjectInputAction = playerActionMap.FindAction("SelectObject");
+        selectObjectInputAction.performed += SelectObject;
         
-        /*var playerActionMap = controls.FindActionMap("Player");
-        var playerInputAction = playerActionMap.FindAction("MoveObject");
-        playerInputAction.performed += MoveObject;*/
+        var nodeCreationAction = debugActionMap.FindAction("EnableNodeCreation");
+        nodeCreationAction.performed += NodePlacementMode;
+        
+        
+        var nodePlacement = debugActionMap.FindAction("NodePlacement");
+        nodePlacement.performed += PlaceNode;
     }
 
-    public void Generate(InputAction.CallbackContext context)
+    private void Setup()
+    {
+        splineContainer = gameObject.AddComponent<SplineContainer>();
+        spline = GetComponent<SplineContainer>().Spline;
+
+        splineExtrude = gameObject.AddComponent<SplineExtrude>();
+        splineExtrude.Container = splineContainer;
+        splineExtrude.RebuildOnSplineChange = true;
+        splineExtrude.SegmentsPerUnit = 20;
+        gameObject.GetComponent<MeshFilter>().mesh = new Mesh();
+        meshRenderer = gameObject.GetComponent<MeshRenderer>();
+    }
+
+    private void Generate(InputAction.CallbackContext context)
     {
         spline.Clear();
-        SetSplineNodes();
-        SetRadius();
-        //SetPosition();
+        SetRandomSplineNodes();
+        SetRandomRadius();
+        //SetRandomPosition();
+        SetRandomColor();
     }
-
-    private void SetPosition()
+    
+    public void OnButtonClick()
     {
-        //wurmTransform = transform.position(Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f));
+        Generate(default);
     }
-
-    private void SetSplineNodes()
-    {
-        for (int i = 0; i < Random.Range(3, 10); i++)
-            spline.Add(new Vector3(Random.Range(-5, 5), Random.Range(0, 5), Random.Range(-5, 5)));
-    }
-
-    private void SetRadius()
-    {
-        splineExtrude.Radius = Random.Range(0.1f, 1.0f);
-        splineExtrude.Rebuild();
-    }
-
+    
     private void MoveObject(InputAction.CallbackContext context)
     {
-        transform.position = context.ReadValue<Vector3>();
+        if (!selected) return;
+        var moveObjectInput = new Vector3(context.ReadValue<Vector2>().x, 0, context.ReadValue<Vector2>().y);
+        transform.position += moveObjectInput * 0.01f;
     }
+
+    private void SelectObject(InputAction.CallbackContext context)
+    {
+        selected = !selected;
+    }
+
+    private void SetMaterial(Material newMaterial)
+    {
+        meshRenderer.material = newMaterial;
+    }
+
+    private void SetRandomColor()
+    {
+        SetMaterial(new Material(Shader.Find(new String("Universal Render Pipeline/Lit")))
+        {
+            color = Random.ColorHSV()
+        });
+    }
+
+    private void NodePlacementMode(InputAction.CallbackContext context)
+    {
+        if (enableNodePlacement)
+            enableNodePlacement = false;
+        else
+        {
+            enableNodePlacement = true;
+            spline.Clear();
+        }
+    }
+
+    private void PlaceNode(InputAction.CallbackContext context)
+    {
+        if (enableNodePlacement)
+            spline.Add(OVRInput.GetLocalControllerPosition(OVRInput.Controller.RTouch));
+    }
+
+    private void SetRandomSplineNodes()
+    {
+        for (int i = 0; i < Random.Range(3, 15); i++)
+            spline.Add(new Vector3(Random.Range(-1f, 1f), Random.Range(0f, 2f), Random.Range(-1f, 1f)));
+    }
+
+    private void SetRandomRadius()
+    {
+        splineExtrude.Radius = Random.Range(0.01f, 0.1f);
+    }
+
 
     // Update is called once per frame
     void Update()
     {
-    }
-
-    void OnInteract()
-    {
-    }
-    public void OnButtonClick()
-    {
-    Generate(default);
     }
 }
