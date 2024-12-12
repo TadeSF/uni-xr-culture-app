@@ -8,7 +8,7 @@ using Vector3 = UnityEngine.Vector3;
 
 public class Wurm : MonoBehaviour
 {
-    [HideInInspector] [SerializeField] public InputActionAsset controls;
+    [SerializeField] public InputActionAsset controls;
     [HideInInspector] [SerializeField] private Spline spline;
     [HideInInspector] [SerializeField] private SplineContainer splineContainer;
     [HideInInspector] [SerializeField] private SplineExtrude splineExtrude;
@@ -64,13 +64,16 @@ public class Wurm : MonoBehaviour
         SetRandomColor();
     }
     
+    public void OnButtonClick()
+    {
+        Generate(default);
+    }
+    
     private void MoveObject(InputAction.CallbackContext context)
     {
-        if (selected)
-        {
-            var moveObjectInput = new Vector3(context.ReadValue<Vector2>().x, 0, context.ReadValue<Vector2>().y);
-            transform.position += moveObjectInput * 0.01f;
-        }
+        if (!selected) return;
+        var moveObjectInput = new Vector3(context.ReadValue<Vector2>().x, 0, context.ReadValue<Vector2>().y);
+        transform.position += moveObjectInput * 0.01f;
     }
 
     private void SelectObject(InputAction.CallbackContext context)
@@ -93,17 +96,19 @@ public class Wurm : MonoBehaviour
 
     private void NodePlacementMode(InputAction.CallbackContext context)
     {
-        spline.Clear();
-        enableNodePlacement = true;
+        if (enableNodePlacement)
+            enableNodePlacement = false;
+        else
+        {
+            enableNodePlacement = true;
+            spline.Clear();
+        }
     }
 
     private void PlaceNode(InputAction.CallbackContext context)
     {
         if (enableNodePlacement)
-            spline.Add(new Vector3(Random.Range(-1f, 1f), Random.Range(0f,1f), Random.Range(-1f, 1f))); // Placeholder
-                                                                                                        // hier soll die
-                                                                                                        // Controller Location
-                                                                                                        // benutzt werden
+            spline.Add(OVRInput.GetLocalControllerPosition(OVRInput.Controller.RTouch));
     }
 
     private void SetRandomSplineNodes()
@@ -115,7 +120,6 @@ public class Wurm : MonoBehaviour
     private void SetRandomRadius()
     {
         splineExtrude.Radius = Random.Range(0.01f, 0.1f);
-        splineExtrude.Rebuild();
     }
 
 

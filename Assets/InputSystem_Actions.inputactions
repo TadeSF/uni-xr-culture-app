@@ -512,17 +512,6 @@
                     "action": "SelectObject",
                     "isComposite": false,
                     "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "b8de854d-98c4-4289-b3fc-f74e4af1830f",
-                    "path": "<Keyboard>/m",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "SelectObject",
-                    "isComposite": false,
-                    "isPartOfComposite": false
                 }
             ]
         },
@@ -1108,6 +1097,17 @@
                 },
                 {
                     "name": "",
+                    "id": "c5bad082-90f1-4865-83b0-5debf8d9c00d",
+                    "path": "<QuestProTouchController>{RightHand}/primaryButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "EnableNodeCreation",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "e8f9bc61-a730-4970-b9c4-f9223029e760",
                     "path": "<Keyboard>/n",
                     "interactions": "",
@@ -1119,22 +1119,22 @@
                 },
                 {
                     "name": "",
-                    "id": "ae443d84-3615-43c6-a908-a32ec7ec0c71",
-                    "path": "<Keyboard>/p",
+                    "id": "885ff9b4-eb90-41a5-ab14-0d37e482eab7",
+                    "path": "<QuestProTouchController>/triggerPressed",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Keyboard&Mouse",
+                    "groups": ";XR",
                     "action": "NodePlacement",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "885ff9b4-eb90-41a5-ab14-0d37e482eab7",
-                    "path": "<XRController>{RightHand}/isTracked",
+                    "id": "a392123c-9192-4b47-9445-e846bf763adf",
+                    "path": "<Keyboard>/#(P)",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";XR",
+                    "groups": ";Keyboard&Mouse",
                     "action": "NodePlacement",
                     "isComposite": false,
                     "isPartOfComposite": false
