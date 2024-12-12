@@ -8,14 +8,13 @@ using Vector3 = UnityEngine.Vector3;
 
 public class Wurm : MonoBehaviour
 {
-    [SerializeField] public Vector3[] nodes;
-    
     [SerializeField] public InputActionAsset controls;
     [HideInInspector] [SerializeField] private Spline spline;
     [HideInInspector] [SerializeField] private SplineContainer splineContainer;
     [HideInInspector] [SerializeField] private SplineExtrude splineExtrude;
 
     [HideInInspector] [SerializeField] private MeshRenderer meshRenderer;
+    [HideInInspector] [SerializeField] private MeshCollider meshCollider;
     [HideInInspector] [SerializeField] private bool selected;
     
     [HideInInspector] [SerializeField] private bool enableNodePlacement;
@@ -46,13 +45,13 @@ public class Wurm : MonoBehaviour
     {
         splineContainer = gameObject.AddComponent<SplineContainer>();
         spline = GetComponent<SplineContainer>().Spline;
-
         splineExtrude = gameObject.AddComponent<SplineExtrude>();
         splineExtrude.Container = splineContainer;
         splineExtrude.RebuildOnSplineChange = true;
         splineExtrude.SegmentsPerUnit = 20;
         gameObject.GetComponent<MeshFilter>().mesh = new Mesh();
         meshRenderer = gameObject.GetComponent<MeshRenderer>();
+        meshCollider = gameObject.AddComponent<MeshCollider>();
     }
 
     private void Generate(InputAction.CallbackContext context)
@@ -113,6 +112,14 @@ public class Wurm : MonoBehaviour
     {
         if (enableNodePlacement)
             spline.Add(OVRInput.GetLocalControllerPosition(OVRInput.Controller.RTouch));
+    }
+
+    public void setSplineNodes(Vector3[] nodes)
+    {
+        for (int i = 0; i < nodes.Length; ++i)
+        {
+            spline.Add(nodes[i]);
+        } 
     }
 
     private void SetRandomSplineNodes()
