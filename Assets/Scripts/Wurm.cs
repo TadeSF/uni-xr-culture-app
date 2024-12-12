@@ -8,6 +8,8 @@ using Vector3 = UnityEngine.Vector3;
 
 public class Wurm : MonoBehaviour
 {
+    [SerializeField] public Vector3[] nodes;
+    
     [SerializeField] public InputActionAsset controls;
     [HideInInspector] [SerializeField] private Spline spline;
     [HideInInspector] [SerializeField] private SplineContainer splineContainer;
@@ -55,6 +57,10 @@ public class Wurm : MonoBehaviour
 
     private void Generate(InputAction.CallbackContext context)
     {
+        if (nodes != null)
+        {
+            
+        }
         spline.Clear();
         SetRandomSplineNodes();
         SetRandomRadius();
