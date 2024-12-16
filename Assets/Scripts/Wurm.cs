@@ -14,6 +14,7 @@ public class Wurm : MonoBehaviour
     [HideInInspector] [SerializeField] private SplineExtrude splineExtrude;
 
     [HideInInspector] [SerializeField] private MeshRenderer meshRenderer;
+    [HideInInspector] [SerializeField] private MeshCollider meshCollider;
     [HideInInspector] [SerializeField] private bool selected;
     
     [HideInInspector] [SerializeField] private bool enableNodePlacement;
@@ -44,17 +45,21 @@ public class Wurm : MonoBehaviour
     {
         splineContainer = gameObject.AddComponent<SplineContainer>();
         spline = GetComponent<SplineContainer>().Spline;
-
         splineExtrude = gameObject.AddComponent<SplineExtrude>();
         splineExtrude.Container = splineContainer;
         splineExtrude.RebuildOnSplineChange = true;
         splineExtrude.SegmentsPerUnit = 20;
         gameObject.GetComponent<MeshFilter>().mesh = new Mesh();
         meshRenderer = gameObject.GetComponent<MeshRenderer>();
+        meshCollider = gameObject.AddComponent<MeshCollider>();
     }
 
     private void Generate(InputAction.CallbackContext context)
     {
+        if (nodes != null)
+        {
+            
+        }
         spline.Clear();
         SetRandomSplineNodes();
         SetRandomRadius();
@@ -107,6 +112,14 @@ public class Wurm : MonoBehaviour
     {
         if (enableNodePlacement)
             spline.Add(OVRInput.GetLocalControllerPosition(OVRInput.Controller.RTouch));
+    }
+
+    public void setSplineNodes(Vector3[] nodes)
+    {
+        for (int i = 0; i < nodes.Length; ++i)
+        {
+            spline.Add(nodes[i]);
+        } 
     }
 
     private void SetRandomSplineNodes()
