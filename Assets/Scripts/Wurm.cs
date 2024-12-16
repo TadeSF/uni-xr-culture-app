@@ -43,6 +43,7 @@ public class Wurm : MonoBehaviour
 
     private void Setup()
     {
+        gameObject.SetActive(false);
         splineContainer = gameObject.AddComponent<SplineContainer>();
         spline = GetComponent<SplineContainer>().Spline;
         splineExtrude = gameObject.AddComponent<SplineExtrude>();
@@ -56,6 +57,7 @@ public class Wurm : MonoBehaviour
 
     private void Generate(InputAction.CallbackContext context)
     {
+        gameObject.SetActive(true);
         spline.Clear();
         SetRandomSplineNodes();
         SetRandomRadius();
@@ -100,6 +102,7 @@ public class Wurm : MonoBehaviour
         else
         {
             enableNodePlacement = true;
+            gameObject.SetActive(false);
             spline.Clear();
         }
     }
