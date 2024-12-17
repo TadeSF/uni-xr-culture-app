@@ -41,6 +41,11 @@ public class Wurm : MonoBehaviour
         nodePlacement.performed += PlaceNode;
     }
 
+    private void OnMouseOver()
+    {
+        SetRandomColor();
+    }
+
     private void Setup()
     {
         gameObject.SetActive(false);
@@ -113,7 +118,7 @@ public class Wurm : MonoBehaviour
             spline.Add(OVRInput.GetLocalControllerPosition(OVRInput.Controller.RTouch));
     }
 
-    public void setSplineNodes(Vector3[] nodes)
+    public void SetSplineNodes(Vector3[] nodes)
     {
         foreach (var node in nodes)
         {
