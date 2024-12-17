@@ -1,7 +1,11 @@
 using System;
+using System.Collections.Generic;
 using Oculus.Interaction;
 using Oculus.Interaction.Surfaces;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using UnityEngine.Splines;
 using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
@@ -17,12 +21,13 @@ public class Wurm : MonoBehaviour
 
     [HideInInspector] [SerializeField] private MeshRenderer meshRenderer;
     [HideInInspector] [SerializeField] private MeshCollider meshCollider;
+    [HideInInspector] [SerializeField] private RayInteractable rayInteractable;
     [HideInInspector] [SerializeField] private bool selected;
     
     [HideInInspector] [SerializeField] private bool enableNodePlacement;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public void Start()
     {
         Setup();
         var debugActionMap = controls.FindActionMap("Debug");
@@ -43,11 +48,6 @@ public class Wurm : MonoBehaviour
         nodePlacement.performed += PlaceNode;
     }
 
-    private void OnMouseOver()
-    {
-        SetRandomColor();
-    }
-
     private void Setup()
     {
         gameObject.SetActive(false);
@@ -59,11 +59,15 @@ public class Wurm : MonoBehaviour
         splineExtrude.SegmentsPerUnit = 20;
         gameObject.GetComponent<MeshFilter>().mesh = new Mesh();
         meshRenderer = gameObject.GetComponent<MeshRenderer>();
-        meshCollider = gameObject.AddComponent<MeshCollider>();
-        ColliderSurface surface = gameObject.AddComponent<ColliderSurface>();
+        /*meshCollider = gameObject.AddComponent<MeshCollider>();
+        var surface = gameObject.AddComponent<ColliderSurface>();
         surface.InjectCollider(meshCollider);
-        RayInteractable rayInteractable = gameObject.AddComponent<RayInteractable>();
-        rayInteractable.InjectAllRayInteractable(surface);
+        rayInteractable = gameObject.AddComponent<RayInteractable>();
+        rayInteractable.InjectSurface(surface);
+        var interactableEventWrapper = gameObject.GetComponent<InteractableUnityEventWrapper>();
+        interactableEventWrapper.InjectAllInteractableUnityEventWrapper(rayInteractable);
+        interactableEventWrapper.enabled = true;
+        //rayInteractable.WhenPointerEventRaised += SetRandomColor;*/
     }
 
     private void Generate(InputAction.CallbackContext context)
@@ -74,6 +78,23 @@ public class Wurm : MonoBehaviour
         SetRandomRadius();
         //SetRandomPosition();
         SetRandomColor();
+    }
+
+    private Material oldMaterial;
+
+    public void OnHoverEnter()
+    {
+        oldMaterial = meshRenderer.material;
+        SetMaterial(new Material(Shader.Find(new String("Universal Render Pipeline/Lit")))
+        {
+            color = Color.blue
+        });
+        
+    }
+
+    public void OnHoverExit()
+    {
+        SetMaterial(oldMaterial);
     }
     
     public void OnButtonClick()
@@ -98,7 +119,7 @@ public class Wurm : MonoBehaviour
         meshRenderer.material = newMaterial;
     }
 
-    private void SetRandomColor()
+    public void SetRandomColor()
     {
         SetMaterial(new Material(Shader.Find(new String("Universal Render Pipeline/Lit")))
         {
