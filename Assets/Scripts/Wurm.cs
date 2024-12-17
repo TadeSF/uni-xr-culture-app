@@ -1,4 +1,6 @@
 using System;
+using Oculus.Interaction;
+using Oculus.Interaction.Surfaces;
 using UnityEngine;
 using UnityEngine.Splines;
 using UnityEngine.InputSystem;
@@ -58,6 +60,10 @@ public class Wurm : MonoBehaviour
         gameObject.GetComponent<MeshFilter>().mesh = new Mesh();
         meshRenderer = gameObject.GetComponent<MeshRenderer>();
         meshCollider = gameObject.AddComponent<MeshCollider>();
+        ColliderSurface surface = gameObject.AddComponent<ColliderSurface>();
+        surface.InjectCollider(meshCollider);
+        RayInteractable rayInteractable = gameObject.AddComponent<RayInteractable>();
+        rayInteractable.InjectAllRayInteractable(surface);
     }
 
     private void Generate(InputAction.CallbackContext context)
