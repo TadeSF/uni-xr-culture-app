@@ -41,9 +41,6 @@ public class Wurm : MonoBehaviour
         var selectObjectInputAction = playerActionMap.FindAction("SelectObject");
         selectObjectInputAction.performed += SelectObject;
         
-        var nodeCreationAction = debugActionMap.FindAction("EnableNodeCreation");
-        nodeCreationAction.performed += NodePlacementMode;
-        
         var nodePlacement = debugActionMap.FindAction("NodePlacement");
         nodePlacement.performed += PlaceNode;
     }
@@ -96,6 +93,19 @@ public class Wurm : MonoBehaviour
     {
         SetMaterial(oldMaterial);
     }
+
+    public void OnSelect()
+    {
+        SetMaterial(new Material(Shader.Find(new String("Universal Render Pipeline/Lit")))
+        {
+            color = Color.red
+        });
+    }
+
+    public void OnUnselect()
+    {
+        SetMaterial(oldMaterial);
+    }
     
     public void OnButtonClick()
     {
@@ -119,15 +129,16 @@ public class Wurm : MonoBehaviour
         meshRenderer.material = newMaterial;
     }
 
-    public void SetRandomColor()
+    private void SetRandomColor()
     {
         SetMaterial(new Material(Shader.Find(new String("Universal Render Pipeline/Lit")))
         {
             color = Random.ColorHSV()
         });
+        oldMaterial = meshRenderer.material;
     }
 
-    private void NodePlacementMode(InputAction.CallbackContext context)
+    private void NodePlacementMode()
     {
         if (enableNodePlacement)
             enableNodePlacement = false;
