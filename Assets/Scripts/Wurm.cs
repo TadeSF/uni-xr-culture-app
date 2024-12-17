@@ -56,10 +56,10 @@ public class Wurm : MonoBehaviour
 
     private void Generate(InputAction.CallbackContext context)
     {
-        if (nodes != null)
+        /*if (nodes != null)
         {
             
-        }
+        }*/
         spline.Clear();
         SetRandomSplineNodes();
         SetRandomRadius();
