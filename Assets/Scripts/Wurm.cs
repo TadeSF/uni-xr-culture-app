@@ -111,6 +111,10 @@ public class Wurm : MonoBehaviour
     {
         Generate(default);
     }
+
+    private void MoveObject()
+    {
+    }
     
     private void MoveObject(InputAction.CallbackContext context)
     {
