@@ -7508,8 +7508,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    - target: {fileID: 3611371046790624175, guid: 776aefb2604f33d47879b8810e7350b2, type: 3}
+      propertyPath: _interactableView
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8790517671107873185, guid: 776aefb2604f33d47879b8810e7350b2, type: 3}
+      propertyPath: _collider
+      value: 
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 3621433348908129235, guid: 776aefb2604f33d47879b8810e7350b2, type: 3}
+    - {fileID: 2041921172865320854, guid: 776aefb2604f33d47879b8810e7350b2, type: 3}
+    - {fileID: 5603222532781318659, guid: 776aefb2604f33d47879b8810e7350b2, type: 3}
+    - {fileID: 8790517671107873185, guid: 776aefb2604f33d47879b8810e7350b2, type: 3}
+    - {fileID: 4351577249332671332, guid: 776aefb2604f33d47879b8810e7350b2, type: 3}
+    m_RemovedGameObjects:
+    - {fileID: 7454430762227856515, guid: 776aefb2604f33d47879b8810e7350b2, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 776aefb2604f33d47879b8810e7350b2, type: 3}

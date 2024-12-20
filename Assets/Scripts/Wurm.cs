@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Oculus.Interaction;
+using Oculus.Interaction.HandGrab;
 using Oculus.Interaction.Surfaces;
 using UnityEditor;
 using UnityEngine;
@@ -56,7 +57,8 @@ public class Wurm : MonoBehaviour
         splineExtrude.SegmentsPerUnit = 20;
         gameObject.GetComponent<MeshFilter>().mesh = new Mesh();
         meshRenderer = gameObject.GetComponent<MeshRenderer>();
-        /*meshCollider = gameObject.AddComponent<MeshCollider>();
+        meshCollider = gameObject.AddComponent<MeshCollider>();
+        meshCollider.sharedMesh = gameObject.GetComponent<MeshFilter>().mesh;
         var surface = gameObject.AddComponent<ColliderSurface>();
         surface.InjectCollider(meshCollider);
         rayInteractable = gameObject.AddComponent<RayInteractable>();
@@ -64,7 +66,16 @@ public class Wurm : MonoBehaviour
         var interactableEventWrapper = gameObject.GetComponent<InteractableUnityEventWrapper>();
         interactableEventWrapper.InjectAllInteractableUnityEventWrapper(rayInteractable);
         interactableEventWrapper.enabled = true;
-        //rayInteractable.WhenPointerEventRaised += SetRandomColor;*/
+        var rigidbody = gameObject.AddComponent<Rigidbody>();
+        rigidbody.useGravity = false;
+        rigidbody.isKinematic = true;
+        var grabbable = gameObject.AddComponent<Grabbable>();
+        grabbable.InjectOptionalRigidbody(rigidbody);
+        var handgrab = gameObject.AddComponent<HandGrabInteractable>();
+        handgrab.InjectRigidbody(rigidbody);
+        var grabInteractable = gameObject.AddComponent<GrabInteractable>();
+        grabInteractable.InjectRigidbody(rigidbody);
+        //rayInteractable.WhenPointerEventRaised += SetRandomColor;
     }
 
     private void Generate(InputAction.CallbackContext context)
