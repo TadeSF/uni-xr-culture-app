@@ -1,12 +1,8 @@
 using System;
-using System.Collections.Generic;
 using Oculus.Interaction;
 using Oculus.Interaction.HandGrab;
 using Oculus.Interaction.Surfaces;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.EventSystems;
 using UnityEngine.Splines;
 using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
@@ -20,17 +16,28 @@ public class Wurm : MonoBehaviour
     [HideInInspector] [SerializeField] private SplineContainer splineContainer;
     [HideInInspector] [SerializeField] private SplineExtrude splineExtrude;
 
+    [HideInInspector] [SerializeField] private MeshFilter meshFilter;
     [HideInInspector] [SerializeField] private MeshRenderer meshRenderer;
     [HideInInspector] [SerializeField] private MeshCollider meshCollider;
     [HideInInspector] [SerializeField] private RayInteractable rayInteractable;
+    [HideInInspector] [SerializeField] private ColliderSurface colliderSurface;
+    [HideInInspector] [SerializeField] private Rigidbody rigidbodySpline;
+    [HideInInspector] [SerializeField] private Grabbable grabbable;
+    [HideInInspector] [SerializeField] private HandGrabInteractable handGrab;
+    [HideInInspector] [SerializeField] private GrabInteractable grabInteractable;
+    
     [HideInInspector] [SerializeField] private bool selected;
     
     [HideInInspector] [SerializeField] private bool enableNodePlacement;
 
+    private void Awake()
+    {
+        Setup();
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public void Start()
     {
-        Setup();
         var debugActionMap = controls.FindActionMap("Debug");
         var generateInputAction = debugActionMap.FindAction("Generate");
         generateInputAction.performed += Generate;
@@ -48,39 +55,73 @@ public class Wurm : MonoBehaviour
 
     private void Setup()
     {
-        gameObject.SetActive(false);
-        splineContainer = gameObject.AddComponent<SplineContainer>();
-        spline = GetComponent<SplineContainer>().Spline;
-        splineExtrude = gameObject.AddComponent<SplineExtrude>();
+        meshRenderer = gameObject.GetComponent<MeshRenderer>();
+        if (meshRenderer == null)
+            meshRenderer = gameObject.AddComponent<MeshRenderer>();
+        
+        meshFilter = gameObject.GetComponent<MeshFilter>();
+        if (meshFilter == null)
+            meshFilter = gameObject.AddComponent<MeshFilter>();
+        
+        splineContainer = gameObject.GetComponent<SplineContainer>();
+        if (splineContainer == null)
+            splineContainer = gameObject.AddComponent<SplineContainer>();
+        spline = splineContainer.Spline;
+        
+        splineExtrude = gameObject.GetComponent<SplineExtrude>();
+        if (splineExtrude == null)
+            splineExtrude = gameObject.AddComponent<SplineExtrude>();
         splineExtrude.Container = splineContainer;
         splineExtrude.RebuildOnSplineChange = true;
         splineExtrude.SegmentsPerUnit = 20;
-        gameObject.GetComponent<MeshFilter>().mesh = new Mesh();
-        meshRenderer = gameObject.GetComponent<MeshRenderer>();
-        meshCollider = gameObject.AddComponent<MeshCollider>();
-        meshCollider.sharedMesh = gameObject.GetComponent<MeshFilter>().mesh;
-        var surface = gameObject.AddComponent<ColliderSurface>();
-        surface.InjectCollider(meshCollider);
-        rayInteractable = gameObject.AddComponent<RayInteractable>();
-        rayInteractable.InjectSurface(surface);
+        
+        meshFilter.mesh = new Mesh();
+        meshCollider = gameObject.GetComponent<MeshCollider>();
+        if (meshCollider == null)
+            meshCollider = gameObject.AddComponent<MeshCollider>();
+        meshCollider.sharedMesh = meshFilter.mesh;
+        
+        colliderSurface = gameObject.GetComponent<ColliderSurface>();
+        if (colliderSurface == null)
+            colliderSurface = gameObject.AddComponent<ColliderSurface>();
+        colliderSurface.InjectCollider(meshCollider);
+        
+        rayInteractable = gameObject.GetComponent<RayInteractable>();
+        if (rayInteractable == null)
+            rayInteractable = gameObject.AddComponent<RayInteractable>();
+        rayInteractable.InjectSurface(colliderSurface);
+        
         var interactableEventWrapper = gameObject.GetComponent<InteractableUnityEventWrapper>();
-        interactableEventWrapper.InjectAllInteractableUnityEventWrapper(rayInteractable);
+        interactableEventWrapper.InjectAllInteractableUnityEventWrapper(rayInteractable);               
         interactableEventWrapper.enabled = true;
-        var rigidbody = gameObject.AddComponent<Rigidbody>();
-        rigidbody.useGravity = false;
-        rigidbody.isKinematic = true;
-        var grabbable = gameObject.AddComponent<Grabbable>();
-        grabbable.InjectOptionalRigidbody(rigidbody);
-        var handgrab = gameObject.AddComponent<HandGrabInteractable>();
-        handgrab.InjectRigidbody(rigidbody);
-        var grabInteractable = gameObject.AddComponent<GrabInteractable>();
-        grabInteractable.InjectRigidbody(rigidbody);
-        //rayInteractable.WhenPointerEventRaised += SetRandomColor;
+        
+        rigidbodySpline = gameObject.GetComponent<Rigidbody>();
+        if (rigidbodySpline == null)
+            rigidbodySpline = gameObject.AddComponent<Rigidbody>();
+        rigidbodySpline.useGravity = false;
+        rigidbodySpline.isKinematic = true;
+        
+        grabbable = gameObject.GetComponentInChildren<Grabbable>();
+        if (grabbable == null)
+            grabbable = gameObject.AddComponent<Grabbable>();
+        grabbable.TransferOnSecondSelection = true;
+        grabbable.InjectOptionalRigidbody(rigidbodySpline);
+        
+        handGrab = gameObject.GetComponentInChildren<HandGrabInteractable>();
+        if (handGrab == null)
+            handGrab = gameObject.AddComponent<HandGrabInteractable>();
+        handGrab.InjectRigidbody(rigidbodySpline);
+        handGrab.HandAlignment = HandAlignType.None;
+        
+        grabInteractable = gameObject.GetComponentInChildren<GrabInteractable>();
+        if (grabInteractable == null)
+            grabInteractable = gameObject.AddComponent<GrabInteractable>();
+        grabInteractable.UseClosestPointAsGrabSource = false;
+        grabInteractable.InjectRigidbody(rigidbodySpline);
     }
 
     private void Generate(InputAction.CallbackContext context)
     {
-        gameObject.SetActive(true);
         spline.Clear();
         SetRandomSplineNodes();
         SetRandomRadius();
